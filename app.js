@@ -11,9 +11,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var customerRouter = require('./routes/customers');
+var quotationRouter = require('./routes/quotations');
 
 var app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
+// app.get('/react-quotation/*', (req,res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'react-quotation', 'index.html'));
+// })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -26,10 +31,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 //Plug router
-app.use('/', indexRouter); // root server
+ // root server
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/customers',customerRouter);
+app.use('/quotations', quotationRouter);
+// app.use('/', indexRouter);
+app.get('*', (req,res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
